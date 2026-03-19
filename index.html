@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differential Geometry — Interactive</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <button id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+        <aside id="sidebar">
+            <div id="sidebar-header">
+                <h1>Differential Geometry</h1>
+                <p class="author">do Carmo / Lee / do Carmo (Riemannian)</p>
+                <div id="progress-container">
+                    <div id="progress-bar"><div id="progress-fill"></div></div>
+                    <span id="progress-text">0%</span>
+                </div>
+            </div>
+            <div id="search-container">
+                <input type="text" id="search-input" placeholder="Search topics...">
+            </div>
+            <nav id="chapter-nav"></nav>
+            <div id="sidebar-footer"><p class="copyright-notice" style="font-size:0.7rem;color:#888;margin-top:12px;text-align:center;">&copy; 2026 Hengzhe Zhao &middot; AGPL-3.0 &amp; Commercial</p>
+                <button id="reset-progress">Reset Progress</button>
+            </div>
+        </aside>
+        <main id="main-content">
+            <div id="welcome-screen">
+                <div class="welcome-hero">
+                    <h1>Differential Geometry</h1>
+                    <h2>微分几何 · Interactive</h2>
+                    <p class="welcome-description">
+                        From curves and surfaces to Riemannian manifolds. See curvature come alive
+                        through interactive 3D visualizations, Frenet frames, geodesics on surfaces,
+                        and the Gauss-Bonnet theorem.
+                    </p>
+                </div>
+                <div class="roadmap">
+                    <h3>What You'll Explore</h3>
+                    <div class="roadmap-parts">
+                        <div class="roadmap-part">
+                            <h4>Part A: Curves</h4>
+                            <ul>
+                                <li>Ch 0: Curves in R^n</li>
+                                <li>Ch 1: Curvature &amp; Torsion</li>
+                                <li>Ch 2: The Frenet-Serret Frame</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part B: Surfaces in R^3</h4>
+                            <ul>
+                                <li>Ch 3: Regular Surfaces</li>
+                                <li>Ch 4: The First Fundamental Form</li>
+                                <li>Ch 5: The Gauss Map &amp; Second Fundamental Form</li>
+                                <li>Ch 6: Gaussian &amp; Mean Curvature</li>
+                                <li>Ch 7: Geodesics on Surfaces</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part C: Intrinsic Geometry</h4>
+                            <ul>
+                                <li>Ch 8: Gauss's Theorema Egregium</li>
+                                <li>Ch 9: The Gauss-Bonnet Theorem</li>
+                                <li>Ch 10: Minimal Surfaces</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part D: Smooth Manifolds</h4>
+                            <ul>
+                                <li>Ch 11: Smooth Manifolds &amp; Charts</li>
+                                <li>Ch 12: Tangent Spaces &amp; Vector Fields</li>
+                                <li>Ch 13: Differential Forms &amp; Integration</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part E: Riemannian Geometry</h4>
+                            <ul>
+                                <li>Ch 14: Riemannian Metrics</li>
+                                <li>Ch 15: Connections &amp; Parallel Transport</li>
+                                <li>Ch 16: Geodesics &amp; the Exponential Map</li>
+                                <li>Ch 17: Curvature Tensors</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part F: Global Results</h4>
+                            <ul>
+                                <li>Ch 18: Jacobi Fields &amp; Conjugate Points</li>
+                                <li>Ch 19: Comparison Theorems &amp; Topology</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="welcome-start">Select a chapter from the sidebar to begin your journey into differential geometry!</p>
+            </div>
+            <div id="chapter-content" style="display:none;">
+                <div id="chapter-header">
+                    <div id="chapter-number-badge"></div>
+                    <h1 id="chapter-title"></h1>
+                    <p id="chapter-subtitle"></p>
+                </div>
+                <div id="section-tabs"></div>
+                <article id="section-content"></article>
+                <div id="exercises-panel" style="display:none;">
+                    <h3>Exercises</h3>
+                    <div id="exercises-list"></div>
+                </div>
+                <div id="chapter-nav-buttons">
+                    <button id="prev-btn" disabled>&larr; Previous</button>
+                    <span id="section-indicator"></span>
+                    <button id="next-btn">Next &rarr;</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script src="viz-engine.js"></script>
+
+    <script>
+    window.CHAPTER_MANIFEST = [
+        {number:0,  id:'ch00', title:'Curves in R\u207F',                          file:'ch00-curves'},
+        {number:1,  id:'ch01', title:'Curvature & Torsion',                        file:'ch01-curvature-torsion'},
+        {number:2,  id:'ch02', title:'The Frenet-Serret Frame',                    file:'ch02-frenet-serret'},
+        {number:3,  id:'ch03', title:'Regular Surfaces',                           file:'ch03-regular-surfaces'},
+        {number:4,  id:'ch04', title:'The First Fundamental Form',                 file:'ch04-first-fundamental-form'},
+        {number:5,  id:'ch05', title:'The Gauss Map & Second Fundamental Form',    file:'ch05-gauss-map'},
+        {number:6,  id:'ch06', title:'Gaussian & Mean Curvature',                  file:'ch06-curvatures'},
+        {number:7,  id:'ch07', title:'Geodesics on Surfaces',                      file:'ch07-geodesics-surfaces'},
+        {number:8,  id:'ch08', title:'Gauss\'s Theorema Egregium',                 file:'ch08-theorema-egregium'},
+        {number:9,  id:'ch09', title:'The Gauss-Bonnet Theorem',                   file:'ch09-gauss-bonnet'},
+        {number:10, id:'ch10', title:'Minimal Surfaces',                           file:'ch10-minimal-surfaces'},
+        {number:11, id:'ch11', title:'Smooth Manifolds & Charts',                  file:'ch11-smooth-manifolds'},
+        {number:12, id:'ch12', title:'Tangent Spaces & Vector Fields',             file:'ch12-tangent-spaces'},
+        {number:13, id:'ch13', title:'Differential Forms & Integration',           file:'ch13-differential-forms'},
+        {number:14, id:'ch14', title:'Riemannian Metrics',                         file:'ch14-riemannian-metrics'},
+        {number:15, id:'ch15', title:'Connections & Parallel Transport',           file:'ch15-connections'},
+        {number:16, id:'ch16', title:'Geodesics & the Exponential Map',            file:'ch16-geodesics-exp'},
+        {number:17, id:'ch17', title:'Curvature Tensors',                          file:'ch17-curvature-tensors'},
+        {number:18, id:'ch18', title:'Jacobi Fields & Conjugate Points',           file:'ch18-jacobi-fields'},
+        {number:19, id:'ch19', title:'Comparison Theorems & Topology',             file:'ch19-comparison-topology'},
+    ];
+    </script>
+
+    <script src="app.js"></script>
+</body>
+</html>
